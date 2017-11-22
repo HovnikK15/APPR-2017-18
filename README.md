@@ -4,9 +4,12 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
 
-V mojem projektu sem se odločil, da bom analiziral statistiko avtomobilizma v Sloveniji. Pri tem se bom osredotočal na najpogosteje prodajane avtomobilske znamke, število na novo registriranih avtomobilov po letih, starost vozil itd. V analizo bom morda vključil še statistiko iz Evrope ter bom tako primerjal in iskal podobne vzorce. Prav tako bom v projekt vključil še električna vozila, saj so v zadnjih letih popularna tematika in me zanima, kako je prodaja električnih vozil narastla ter če je vplivala na prodajo navadnih avtomobilov.
-Povezave do podatkovnih virov:
+V mojem projektu sem se odločil, da bom analiziral statistiko avtomobilizma v Sloveniji. Pri tem se bom osredotočal na najpogosteje prodajane avtomobilske znamke, število na novo registriranih avtomobilov po letih, starost vozil itd. V analizo bom morda vključil še statistiko iz Evrope ter bom tako primerjal in iskal podobne vzorce. Prav tako bom v projekt vključil še električna vozila, saj so v zadnjih letih popularna tematika in me zanima, kako je prodaja električnih vozil narastla ter če je vplivala na prodajo navadnih avtomobilov. 
+Podatke bom imel v obliki html iz spletnih strani ter v obliki .csv datotek.
+V tabeli, kjer bom primerjal evropsko prodajo s slovensko, bom imel po vrsticah avtomobilske znamke, po stolpcih pa prodajo v Sloveniji in Evropi. (https://siol.net/avtomoto/novice/prodaja-avtomobilov-v-evropi-in-sloveniji-kraljuje-volkswagen-pri-nas-tudi-renault-432286)
+Če mi bo slučajno primanjkovalo podatkovnih struktur, bom v svojo analizo vključil še par najbolj prodajanih avtomobilov ter jih primerjal med seboj ter z življenjskim standardom v državi.
 
+Povezave do podatkovnih virov:
     Spletni portal OICA (http://www.oica.net)
     http://www2.drobtinice.si/app/gw.dll/portal?req=portalHome
 
