@@ -1,6 +1,6 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
-author: "Študent FMF"
+author: "Klemen Hovnik"
 output:
   html_document: default
   pdf_document:
@@ -21,7 +21,8 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+V mojem projektu sem se odločil, da bom analiziral statistiko avtomobilizma v Sloveniji. Pri tem se bom osredotočal na najpogosteje prodajane znamke, število na novo registriranih avtomobilov po letih, starost vozil itd. V analizo bom morda vključil še statistiko iz Evrope ter bom tako primerjal in iskal podobne vzorce. Prav tako bom v projekt vključil še električna vozila, saj so v zadnjih letih popularna tematika in me zanima, kako je prodaja električnih vozil narastla ter če je vplivala na prodajo navadnih avtomobilov.
+
 
 ***
 
