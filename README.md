@@ -4,8 +4,12 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal. Tukaj boste
-napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+V mojem projektu sem se odločil, da bom analiziral statistiko avtomobilizma v Sloveniji. Pri tem se bom osredotočal na najpogosteje prodajane avtomobilske znamke, število na novo registriranih avtomobilov po letih, starost vozil itd. V analizo bom morda vključil še statistiko iz Evrope ter bom tako primerjal in iskal podobne vzorce. Prav tako bom v projekt vključil še električna vozila, saj so v zadnjih letih popularna tematika in me zanima, kako je prodaja električnih vozil narastla ter če je vplivala na prodajo navadnih avtomobilov.
+Povezave do podatkovnih virov:
+
+    Spletni portal OICA (http://www.oica.net)
+    http://www2.drobtinice.si/app/gw.dll/portal?req=portalHome
+
 
 ## Program
 
