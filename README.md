@@ -9,9 +9,6 @@ Podatke bom imel v obliki html iz spletnih strani ter v obliki .csv datotek.
 V tabeli, kjer bom primerjal evropsko prodajo s slovensko, bom imel po vrsticah avtomobilske znamke, po stolpcih pa prodajo v Sloveniji in Evropi. (https://siol.net/avtomoto/novice/prodaja-avtomobilov-v-evropi-in-sloveniji-kraljuje-volkswagen-pri-nas-tudi-renault-432286)
 Če mi bo slučajno primanjkovalo podatkovnih struktur, bom v svojo analizo vključil še par najbolj prodajanih avtomobilov ter jih primerjal med seboj ter z življenjskim standardom v državi.
 
-Povezave do podatkovnih virov:
-    Spletni portal OICA (http://www.oica.net)
-    http://www2.drobtinice.si/app/gw.dll/portal?req=portalHome
 
 
 ## Program
