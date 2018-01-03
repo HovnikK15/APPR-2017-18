@@ -4,15 +4,18 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
 
-V mojem projektu sem se odločil, da bom analiziral statistiko avtomobilizma v Sloveniji. Pri tem se bom osredotočal na najbolj prodajane avtomobilske znamke, število na novo registriranih avtomobilov po letih, starost vozil itd.
+Za predmet analize sem si izbral Analizo priseljevanja in izseljevanja prebivalstva v oz. iz Slovenije, od leta 2000 naprej. S pridobljenimi podatki iz spleta bom analiziral selitve po posameznih regijah, finančnem položaju ter  starostnih skupinah.
 
-V analizo bom morda vključil še statistiko iz Evrope ter bom tako primerjal in iskal podobne vzorce. Prav tako bom v projekt vključil še električna vozila, saj so v zadnjih letih popularna tema in me zanima, kako je prodaja električnih vozil narastla ter, če je vplivala, na prodajo dizelskih in bencinskih avtomobilov. 
+Podatke sem črpal iz naslednje strani: 
 
-Podatke bom imel v obliki html iz spletnih strani ter v obliki csv datotek.
+Statistični urad RS: http://pxweb.stat.si/pxweb/Database/Dem_soc/Dem_soc.asp 
 
-V tabeli, kjer bom primerjal evropsko prodajo s slovensko, bom imel po vrsticah avtomobilske znamke, po stolpcih pa prodajo v Sloveniji in Evropi. (https://siol.net/avtomoto/novice/prodaja-avtomobilov-v-evropi-in-sloveniji-kraljuje-volkswagen-pri-nas-tudi-renault-432286)
-
-Če mi bo slučajno primanjkovalo podatkovnih struktur, bom v svojo analizo vključil še par najbolj prodajanih avtomobilov ter jih primerjal med seboj ter z življenjskim standardom v državi.
+Zasnova podatkovnega modela:
+* prva tabela – Meddržavne selitve po starostnih skupinah, državljanstvu in spolu, Slovenija, letno
+* druga tabela - Meddržavne selitve po državljanstvu, državah prejšnjega, prihodnjega prebivališča in spolu, Slovenija, letno 
+* tretja tabela - Selitveno gibanje prebivalstva po občinah, Slovenija, letno 
+* četrta tabela - Priseljeni tujci po namenu priselitve in državi državljanstva, Slovenija, letno 
+* peta tabela - Priseljeni prebivalci, stari 15 ali več let, po izobrazbi, državljanstvu, starostnih skupinah, spolu, Slovenija, letno 
 
 
 
