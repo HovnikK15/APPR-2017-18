@@ -13,6 +13,25 @@ uvozihtml <- function() {
 }
 html1 <- uvozihtml()
 
+
+uvozihtml2 <- function() {
+  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201814232722&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
+  stran <- html_session(link) %>% read_html()
+  tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
+    .[[1]] %>% html_table(dec = ",")
+  for (i in 1:ncol(tabela)) {
+    if (is.character(tabela[[i]])) {
+      Encoding(tabela[[i]]) <- "UTF-8"
+    }
+  }
+  colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", "Moški", "Ženske")
+
+
+
+  return(tabela)
+}
+html2 <- uvozihtml2()
+
 # Funkcija, ki uvozi podatke iz csv datotek v mapi "podatki"
 
 library(readr)

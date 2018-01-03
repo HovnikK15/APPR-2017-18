@@ -4,7 +4,7 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
 
-Za predmet analize sem si izbral Analizo priseljevanja in izseljevanja prebivalstva v oz. iz Slovenije, od leta 2000 naprej. S pridobljenimi podatki iz spleta bom analiziral selitve po posameznih regijah, finančnem položaju ter  starostnih skupinah.
+Za predmet analize sem si izbral Analizo priseljevanja in izseljevanja prebivalstva v oz. iz Slovenije, od leta 2000 do 2015.S pridobljenimi podatki iz spleta bom analiziral selitve po posameznih regijah, finančnem položaju ter  starostnih skupinah.
 
 Podatke sem črpal iz naslednje strani: 
 
