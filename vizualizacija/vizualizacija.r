@@ -17,6 +17,13 @@ top10 <- ggplot(ep.rezultati %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %
 
 #print(graf1)
 
+graf2 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = paste(Spol, Vrsta_migrantov))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  xlab("Leto") + ylab("Število") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  ggtitle("Število migracij po letih") +
+  guides(fill = guide_legend("Spol in vrsta"))
+
 #Graf povprešnjega števila metov na igro najboljših strelceu po letih
 graf2 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = Spol)) +
   geom_bar(stat = "identity", position = "dodge") +
