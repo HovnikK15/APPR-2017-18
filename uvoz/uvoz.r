@@ -18,14 +18,14 @@ uvozihtml2 <- function() {
   link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201814232722&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
   stran <- html_session(link) %>% read_html()
   tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
-    .[[1]] %>% html_table(dec = ",")
+    .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
   for (i in 1:ncol(tabela)) {
     if (is.character(tabela[[i]])) {
       Encoding(tabela[[i]]) <- "UTF-8"
     }
   }
-  colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", "Moški", "Ženske")
-
+  colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", c("Spol"))
+#TUKAJ NE ZNAM sTOLPCEV MOŠKI, ŽENSKA SPRAVITI V EN STOLPEC "SPOL"
 
 
   return(tabela)
@@ -50,6 +50,28 @@ uvozi1 <- function() {
 }
 # Zapišimo podatke v razpredelnico tabela1
 tabela1 <- uvozi1()
+
+
+
+
+
+uvozi9 <- function() {
+  tab9 <- read_csv2(file="podatki/05N1004Ss.csv",
+                   #col_names = c("Vrsta_migrantov", "Starostna_skupina", "Leto", "Spol", "Stevilo"),
+                   locale=locale(encoding="Windows-1250"),skip = 2,  n_max = 43) 
+  tab9 <- tab9 %>% fill(1:4) %>% drop_na(Stevilo) %>% filter(Starostna_skupina != "SKUPAJ",
+                                                           Starostna_skupina != "Starostne skupine - SKUPAJ")
+
+  return(tab9)
+}
+# Zapišimo podatke v razpredelnico tabela1
+tabela9 <- uvozi9()
+
+#TUKAJ JE PROBLEM ENAK, IMAM TABELO KJER SO LETA V IMENIH STOLPCEV. ŽELIM, DA BI BILA PRIKAZANA CELOTNA TABELA S STOLPCI 
+#VRSTA MIGRANTOV, STAROSTNA SKUPINA, LETO, SPOL TER ŠTEVILO
+
+
+
 #druga tabela
 uvozi2 <- function() {
   tab2 <- read_csv2(file="podatki/tabela2.csv",
