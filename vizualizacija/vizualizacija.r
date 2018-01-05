@@ -36,43 +36,61 @@ evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturaleart
   pretvori.zemljevid() %>% filter(lat > -60)
 evropa1 <- ggplot()+geom_polygon(data=evropa, aes(x=long, y= lat, group = group))
 print(evropa1)
+
+stevilo.selitev <- tabela2 %>% filter(Drzava_drzavljanstva == "EVROPA",  Drzava_drzavljanstva == "Azija",
+                                      Drzava_drzavljanstva == "AFRIKA",
+                                      Drzava_drzavljanstva == "JUŽNA AMERIKA",
+                                      Drzava_drzavljanstva == "SEVERNA IN SREDNJA AMERIKA",
+                                      Drzava_drzavljanstva == "AVSTRALIJA IN OCEANIJA") %>%
+  group_by(Drzava_drzavljanstva) %>%
+  summarise(Stevilo = n()) %>% arrange(desc(Stevilo)) 
+#ne vem kako naj naredim, da bi v zemljevidu prikazal število selitev za posamezne kontinente (Evropa, Azija, Amerika itd.)
+
 drzave.eng <- c("EVROPA" = "Europe",
+                "Rusija" = "Russia",
                 "Albanija"= "Albania",
                 "Avstrija"= "Austria",
-                "Belgija"= 
-                "Bolgarija"= 
-                "Bosna in Hercegovina"= 
-                "Češka republika"= 
-                "Črna gora"= 
-                "Danska"= 
-                "Francija"= 
-                "Hrvaška"= 
-                "Italija"= 
-                "Kosovo"= 
-                "Madžarska"= 
-                "Makedonija"= 
-                "Nemčija"=
+                "Belgija"= "Belgium",
+                "Bolgarija"= "Bulgaria",
+                "Bosna in Hercegovina"= "Bosnia and Herzegovina ",
+                "Češka republika"= "Czech Republc", 
+                "Črna gora"= "Montenegro",
+                "Danska"= "Denmark",
+                "Francija"= "France",
+                "Hrvaška"= "Croatia",
+                "Italija"= "Italy",
+                "Kosovo"= "Kosovo", 
+                "Madžarska"= "Hungary",
+                "Makedonija"= "Macedonia", 
+                "Nemčija"= "Germany",
                 "Nizozemska"= "Netherlands",
-                "Poljska"= 
-                "Romunija"= 
-                "Ruska federacija"= 
-                "Slovenija"= 
-                "Srbija"= 
-                "Švedska"= 
-                "Švica"= 
-                "Ukrajina"= 
+                "Poljska"= "Poland",
+                "Romunija"= "Romania",
+                "Ruska federacija"= "Russia",
+                "Slovenija"= "Slovenia",
+                "Srbija"= "Republic of Serbia",
+                "Švedska"= "Sweden",
+                "Švica"= "Switzerland",
+                "Ukrajina"= "Ukraine",
                 "Združeno kraljestvo"= "United Kingdom",
-                "Druge države Evrope"= 
-                "AFRIKA"= 
-                "AZIJA"= "Asia"
-                "JUŽNA AMERIKA"= 
-                "SEVERNA IN SREDNJA AMERIKA"= 
-                "Kanada"= 
-                "Združene države"= 
-                "Druge države Severne in Srednje Amerike"= 
-                "AVSTRALIJA IN OCEANIJA"= "Australia",
-                "Neznana država"=) 
-)
-# Izračunamo povprečno velikost družine
-povprecja <- druzine %>% group_by(obcina) %>%
-  summarise(povprecje = sum(velikost.druzine * stevilo.druzin) / sum(stevilo.druzin))
+                "Druge države Evrope"= "?????????????????????",
+                "AFRIKA"= "Africa",
+                "AZIJA"= "Asia",
+                "JUŽNA AMERIKA"= "South America", 
+                "SEVERNA IN SREDNJA AMERIKA"=  "?????????North America,Latin America & Caribbean ???????????", 
+                "Kanada"= "Canada",
+                "Združene države"= "United States of America",
+                "Druge države Severne in Srednje Amerike"= "???????????????????????????",
+                "AVSTRALIJA IN OCEANIJA"= "Australia, Oceania??????????????????????????????",
+                "Neznana država"="???????????????????????"
+                ) 
+#kaj naj napišem namesto vprašajev? da bo ali pobarvalo vse dele, ki so v zamljevidu označeni posamezno 
+# oz. da določenih podatkov (druge neznane države) ne bi prikazovalo
+zemljevid.selitve <- ggplot() +
+  geom_polygon(data = stevilo.selitev %>%
+                 filter(Drzava_drzavljanstva %in% 
+                          c("Evropa", "Azija", "Afrika", "Južna Amerika", "Severna in Srednja Amerika",
+                            "Avstralija in Oceanija")),
+                        aes(x=long, y= lat, group = group, fill = Stevilo))
+print(zemljevid.selitve)
+
