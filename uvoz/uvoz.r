@@ -17,7 +17,7 @@ html1 <- uvozihtml()
 
 
 uvozihtml2 <- function() {
-  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201814232722&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
+  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201815295883&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
   stran <- html_session(link) %>% read_html()
   tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
     .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
@@ -36,29 +36,6 @@ uvozihtml2 <- function() {
   return(tabela)
 }
 html2 <- uvozihtml2()
-
-
-
-uvozihtml2 <- function() {
-  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201814232722&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
-  stran <- html_session(link) %>% read_html()
-  tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
-    .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
-  for (i in 1:ncol(tabela)) {
-    if (is.character(tabela[[i]])) {
-      Encoding(tabela[[i]]) <- "UTF-8"
-    }
-  }
-  colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", c("Spol"))
-  #TUKAJ NE ZNAM sTOLPCEV MOŠKI, ŽENSKA SPRAVITI V EN STOLPEC "SPOL"
-  
-  
-  return(tabela)
-}
-html2 <- uvozihtml2()
-
-
-
 
 
 # Funkcija, ki uvozi podatke iz csv datotek v mapi "podatki"
@@ -110,19 +87,21 @@ tabela2 <- uvozi2()
 
 uvozi3 <- function() {
   tab3 <- read_csv2(file="podatki/tabela23.csv",
-                    locale = locale(encoding = "Windows-1250"), skip = 3,  n_max = 46)
+                    locale = locale(encoding = "Windows-1250"), skip = 3,  n_max = 45)
   stolpci <- data.frame(leto = colnames(tab3) %>% { gsub("X.*", NA, .) } %>% parse_number(),
-                        spol = tab3[1, ] %>% unlist()) %>% fill(leto) %>%
+                        drzavljanstvo = colnames(tab3) %>% { gsub("X.*", NA, .) } %>% parse_number(),
+                        spol = tab3[1, ] %>% unlist()) %>% fill(leto) %>% fill(drzavljanstvo) %>%
     apply(1, paste, collapse = "")
-  stolpci[1:2] <- c("Vrsta_migrantov", "Drzava_drzavljanstva")
+  stolpci[1:2] <- c("Vrsta_migrantov", "Starostna_skupina")
   colnames(tab3) <- stolpci
-  tab3 <- tab3[-1, ] %>% fill(Vrsta_migrantov) %>% drop_na(Drzava_drzavljanstva) %>%
-    filter(!grepl("SKUPAJ", Drzava_drzavljanstva)) %>%
+  tab3 <- tab3[-1, ] %>% fill(Vrsta_migrantov) %>% drop_na(Starostna_skupina) %>%
+    filter(!grepl("SKUPAJ", Starostna_skupina)) %>%
     melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
     mutate(stolpec = parse_character(stolpec)) %>%
-    transmute(Vrsta_migrantov, Drzava_drzavljanstva,
+    transmute(Vrsta_migrantov, Starostna_skupina,
               Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
+              Drzavljanstvo = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo)
   return(tab3)
 }
@@ -142,7 +121,7 @@ tabela3 <- uvozi3()
 
 
 uvozi4 <- function() {
-  tab2 <- read_csv2(file="podatki/5.csv",
+  tab2 <- read_csv2(file="podatki/tabela4.csv",
                     locale = locale(encoding = "Windows-1250"), skip = 2,  n_max = 43)
   stolpci <- data.frame(leto = colnames(tab2) %>% { gsub("X.*", NA, .) } %>% parse_number(),
                         Drzavljanstvo = tab2[1, ] %>% unlist()) %>% fill(leto) %>%
