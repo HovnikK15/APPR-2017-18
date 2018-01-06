@@ -12,12 +12,13 @@ uvozihtml <- function() {
   return(tabhtml)
 }
 html1 <- uvozihtml()
-
-
+#pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
+html1$Stevilo <- as.numeric(as.character(html1$Stevilo))
+#da preverim, če je stolpec res število uporabim funkcijo:lapply(html1, class)
 
 
 uvozihtml2 <- function() {
-  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201815295883&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
+  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201816232162&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
   stran <- html_session(link) %>% read_html()
   tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
     .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
@@ -36,12 +37,13 @@ uvozihtml2 <- function() {
   return(tabela)
 }
 html2 <- uvozihtml2()
-
+#pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
+html2$Stevilo <- as.numeric(as.character(html2$Stevilo))
 
 # Funkcija, ki uvozi podatke iz csv datotek v mapi "podatki"
 
 uvozi1 <- function() {
-  tab1 <- read_csv2(file="podatki/tabela1.csv",
+  tab1 <- read_csv2(file="podatki/tabela1.csv",stringsAsFactors=FALSE,
                     locale = locale(encoding = "Windows-1250"), skip = 2,  n_max = 43)
   stolpci <- data.frame(leto = colnames(tab1) %>% { gsub("X.*", NA, .) } %>% parse_number(),
                         spol = tab1[1, ] %>% unlist()) %>% fill(leto) %>%
@@ -56,10 +58,14 @@ uvozi1 <- function() {
               Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo)
+
   return(tab1)
 }
 # Zapišimo podatke v razpredelnico tabela1
 tabela1 <- uvozi1()
+#pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
+tabela1$Stevilo <- as.numeric(as.character(tabela1$Stevilo))
+#da preverim, če je stolpec res število uporabim funkcijo:lapply(tabela1, class)
 
 
 #druga tabela
@@ -82,42 +88,31 @@ uvozi2 <- function() {
   return(tab2)
 }
 tabela2 <- uvozi2()
-
-
-
-uvozi3 <- function() {
-  tab3 <- read_csv2(file="podatki/tabela23.csv",
-                    locale = locale(encoding = "Windows-1250"), skip = 3,  n_max = 45)
-  stolpci <- data.frame(leto = colnames(tab3) %>% { gsub("X.*", NA, .) } %>% parse_number(),
-                        drzavljanstvo = colnames(tab3) %>% { gsub("X.*", NA, .) } %>% parse_number(),
-                        spol = tab3[1, ] %>% unlist()) %>% fill(leto) %>% fill(drzavljanstvo) %>%
-    apply(1, paste, collapse = "")
-  stolpci[1:2] <- c("Vrsta_migrantov", "Starostna_skupina")
-  colnames(tab3) <- stolpci
-  tab3 <- tab3[-1, ] %>% fill(Vrsta_migrantov) %>% drop_na(Starostna_skupina) %>%
-    filter(!grepl("SKUPAJ", Starostna_skupina)) %>%
-    melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
-    mutate(stolpec = parse_character(stolpec)) %>%
-    transmute(Vrsta_migrantov, Starostna_skupina,
-              Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
-              Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
-              Drzavljanstvo = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
-              Stevilo)
-  return(tab3)
-}
-tabela23 <- uvozi3()
+#pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
+tabela2$Stevilo <- as.numeric(as.character(tabela2$Stevilo))
 
 uvozi3 <- function() {
   tab3 <- read_csv2(file="podatki/tabela3.csv",
-                    col_names = c("Vrsta_migrantov", "Starostna_skupina", "Leto", "Spol","Drzavljanstvo", "Stevilo"),
-                    locale=locale(encoding="Windows-1250"),skip = 7,  n_max = 4525) 
-  tab3 <- tab3 %>% fill(1:5) %>% drop_na(Stevilo) %>% filter(Starostna_skupina != "Starostne skupine - SKUPAJ")
-  tab3$leta_min <- tab3$Starostna_skupina %>% strapplyc("(^[0-9]+)") %>% unlist() %>% parse_number()
-  tab3$Starostna_skupina <- NULL
-  
+                    locale = locale(encoding = "Windows-1250"), skip = 3,  n_max = 45)
+  stolpci <- data.frame(drzavljanstvo = tab3[1, ] %>% unlist(),
+                        leto = colnames(tab3) %>% { gsub("X.*", NA, .) } %>% parse_number(),
+                        spol = tab3[2, ] %>% unlist()) %>%
+    fill(leto, drzavljanstvo) %>% apply(1, paste, collapse = "")
+  stolpci[1:2] <- c("Vrsta_migrantov", "Starostna_skupina")
+  colnames(tab3) <- stolpci
+  tab3 <- tab3[-c(1:2), ] %>% fill(Vrsta_migrantov) %>% drop_na(Starostna_skupina) %>%
+    melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
+    mutate(stolpec = parse_character(stolpec)) %>%
+    transmute(Vrsta_migrantov, Starostna_skupina,
+              Leto = stolpec %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_number(),
+              Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
+              Drzavljanstvo = stolpec %>% strapplyc("^([^0-9]+)") %>% unlist() %>% factor(),
+              Stevilo = parse_number(Stevilo))
   return(tab3)
 }
 tabela3 <- uvozi3()
+#pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
+tabela3$Stevilo <- as.numeric(as.character(tabela3$Stevilo))
 
 
 uvozi4 <- function() {
@@ -139,6 +134,7 @@ uvozi4 <- function() {
   return(tab2)
 }
 tabela4 <- uvozi4()
+tabela4$Stevilo <- as.numeric(as.character(tabela4$Stevilo))
 
 # Če bi imeli več funkcij za uvoz in nekaterih npr. še ne bi
 # potrebovali v 3. fazi, bi bilo smiselno funkcije dati v svojo
