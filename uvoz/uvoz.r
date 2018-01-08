@@ -18,7 +18,7 @@ html1$Stevilo <- as.numeric(as.character(html1$Stevilo))
 
 
 uvozihtml2 <- function() {
-  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201816232162&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
+  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201818462986&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
   stran <- html_session(link) %>% read_html()
   tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
     .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
@@ -43,7 +43,7 @@ html2$Stevilo <- as.numeric(as.character(html2$Stevilo))
 # Funkcija, ki uvozi podatke iz csv datotek v mapi "podatki"
 
 uvozi1 <- function() {
-  tab1 <- read_csv2(file="podatki/tabela1.csv",stringsAsFactors=FALSE,
+  tab1 <- read_csv2(file="podatki/tabela1.csv",
                     locale = locale(encoding = "Windows-1250"), skip = 2,  n_max = 43)
   stolpci <- data.frame(leto = colnames(tab1) %>% { gsub("X.*", NA, .) } %>% parse_number(),
                         spol = tab1[1, ] %>% unlist()) %>% fill(leto) %>%
@@ -141,3 +141,4 @@ tabela4$Stevilo <- as.numeric(as.character(tabela4$Stevilo))
 # datoteko, tukaj pa bi klicali tiste, ki jih potrebujemo v
 # 2. fazi. Seveda bi morali ustrezno datoteko uvoziti v prihodnjih
 # fazah.
+
