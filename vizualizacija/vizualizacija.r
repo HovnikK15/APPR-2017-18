@@ -151,7 +151,7 @@ drzave.eng <- c("EVROPA" = "Europe",
                 "SEVERNA IN SREDNJA AMERIKA"=  "North America", 
                 "Kanada"= "Canada",
                 "Združene države"= "United States of America",
-                "Druge države Severne in Srednje Amerike"= "-",
+                "Druge države Severne in Srednje Amerike"= "North America",
                 "AVSTRALIJA IN OCEANIJA"= "Australia",
                 "Neznana država"="???????????????????????"
 ) 
@@ -168,11 +168,15 @@ stevilo.selitev <- tabela2 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine",
                                       Drzava_drzavljanstva != "Kosovo")%>% 
   group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo)) %>% arrange(desc(Stevilo)) 
 
+#stevilo.selitev <- stevilo.selitev %>% mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva])
+
 zemljevid.selitve <- ggplot() +
   geom_polygon(data = stevilo.selitev %>%
+                 #filter(Drzava_drzavljanstva =="JUŽNA AMERIKA") %>%
                  mutate(SOVEREIGNT = parse_factor(drzave.eng[Drzava_drzavljanstva], levels(evropa$SOVEREIGNT))) %>%
                  group_by(SOVEREIGNT) %>%summarise(Stevilo = sum(Stevilo)) %>%
                  right_join(evropa),
                aes(x = long, y = lat, group = group, fill = Stevilo)) 
 print(zemljevid.selitve)
+ 
  
