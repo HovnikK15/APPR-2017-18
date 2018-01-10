@@ -59,8 +59,8 @@ drzave.eng <- c("EVROPA" = "Europe",
                 "Avstrija"= "Austria",
                 "Belgija"= "Belgium",
                 "Bolgarija"= "Bulgaria",
-                "Bosna in Hercegovina"= "Bosnia and Herzegovina ",
-                "Češka republika"= "Czech Republc", 
+                "Bosna in Hercegovina"= "Bosnia and Herzegovina",
+                "Češka republika"= "Czechia", 
                 "Črna gora"= "Montenegro",
                 "Danska"= "Denmark",
                 "Francija"= "France",
@@ -88,7 +88,7 @@ drzave.eng <- c("EVROPA" = "Europe",
                 "Kanada"= "Canada",
                 "Združene države"= "United States of America",
                 "Druge države Severne in Srednje Amerike"= "North America",
-                "AVSTRALIJA IN OCEANIJA"= "Australia",
+                "AVSTRALIJA IN OCEANIJA"= "Oceania",
                 "Neznana država"="???????????????????????"
 ) 
 
@@ -96,24 +96,41 @@ drzave.eng <- c("EVROPA" = "Europe",
 evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
                           "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
   pretvori.zemljevid() %>% filter(lat > -60)
-#evropa1 <- ggplot()+geom_polygon(data=evropa, aes(x=long, y= lat, group = group))
-#print(evropa1)
-stevilo.selitev <- tabela2 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine",
-                                      Drzava_drzavljanstva != "EVROPA", 
-                                      Drzava_drzavljanstva != "SEVERNA IN SREDNJA AMERIKA",
-                                      Drzava_drzavljanstva != "Črna gora",
-                                      Drzava_drzavljanstva != "Kosovo")%>% 
-  group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo)) %>% arrange(desc(Stevilo)) 
 
-#stevilo.selitev <- stevilo.selitev %>% mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva])
+selitve.eng <- tabela2 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA") %>% 
+  group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo)) %>%
+  mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva])
 
-zemljevid.selitve <- ggplot() +
-  geom_polygon(data = stevilo.selitev %>%
-                 #filter(Drzava_drzavljanstva =="JUŽNA AMERIKA") %>%
-                 mutate(SOVEREIGNT = parse_factor(drzave.eng[Drzava_drzavljanstva], levels(evropa$SOVEREIGNT))) %>%
-                 group_by(SOVEREIGNT) %>%summarise(Stevilo = sum(Stevilo)) %>%
-                 right_join(evropa),
-               aes(x = long, y = lat, group = group, fill = Stevilo)) 
-print(zemljevid.selitve)
- 
+zemljevid.selitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
+  geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
+                 left_join(selitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
+print(zemljevid.selitve.celine)
+
+zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
+                                          SOVEREIGNT %in% c("Canada",
+                                                            "United States of America")) %>%
+                 left_join(selitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
+  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))
+print(zemljevid.selitve.evropa)
+
+
+odselitve.eng <- tabela2 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo !="NA") %>% 
+  group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo)) %>%
+  mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva])
+
+zemljevid.odselitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
+  geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
+                 left_join(odselitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
+print(zemljevid.odselitve.celine)
+
+zemljevid.odselitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
+                                          SOVEREIGNT %in% c("Canada",
+                                                            "United States of America")) %>%
+                 left_join(odselitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
+  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))
+print(zemljevid.odselitve.evropa)
  

@@ -17,11 +17,13 @@ html1$Stevilo <- as.numeric(as.character(html1$Stevilo))
 #da preverim, če je stolpec res število uporabim funkcijo:lapply(html1, class)
 
 
+
 uvozihtml2 <- function() {
-  link <- "http://pxweb.stat.si/pxweb/Dialog/DataSort.asp?Matrix=05N3117S&timeid=201818462986&lang=2&noofvar=4&numberstub=1&NoOfValues=2"
-  stran <- html_session(link) %>% read_html()
-  tabela <- stran %>% html_nodes(xpath="//table[@class='sortable']") %>%
-    .[[1]] %>% html_table(dec = ",") %>% .[-1, ]
+  stran <- file("podatki/html2.htm")%>% 
+    read_html(encoding = "Windows-1250")
+  
+  tabela <- stran %>% html_nodes(xpath="//table") %>% .[[1]] %>% html_table(fill = TRUE) %>%
+    apply(1, . %>% { c(.[is.na(.)], .[!is.na(.)]) }) %>% t() %>% data.frame()
   colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", "Moški", "Ženske")
   tabela <- melt(tabela, measure.vars = c("Moški", "Ženske"),
                  variable.name = "Spol", value.name = "Stevilo") %>%
@@ -32,11 +34,13 @@ uvozihtml2 <- function() {
     }
   }
   #colnames(tabela) <- c("Dejavnost", "Leto", "Drzavljanstvo", c("Spol"))
-
+  tabela <- tabela %>% filter(Stevilo != "NA")
 
   return(tabela)
 }
 html2 <- uvozihtml2()
+
+
 #pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
 html2$Stevilo <- as.numeric(as.character(html2$Stevilo))
 
@@ -71,7 +75,7 @@ tabela1$Stevilo <- as.numeric(as.character(tabela1$Stevilo))
 #druga tabela
 uvozi2 <- function() {
   tab2 <- read_csv2(file="podatki/tabela2.csv",
-                    locale = locale(encoding = "Windows-1250"), skip = 2,  n_max = 43)
+                    locale = locale(encoding = "Windows-1250"), skip = 2,  n_max = 75)
   stolpci <- data.frame(leto = colnames(tab2) %>% { gsub("X.*", NA, .) } %>% parse_number(),
                         spol = tab2[1, ] %>% unlist()) %>% fill(leto) %>%
     apply(1, paste, collapse = "")
