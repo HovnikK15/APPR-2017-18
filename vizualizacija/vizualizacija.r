@@ -105,7 +105,7 @@ zemljevid.selitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fil
   geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
                  left_join(selitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
   geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
-print(zemljevid.selitve.celine)
+#print(zemljevid.selitve.celine)
 
 zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
   geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
@@ -113,7 +113,7 @@ zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fil
                                                             "United States of America")) %>%
                  left_join(selitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
   coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))
-print(zemljevid.selitve.evropa)
+#print(zemljevid.selitve.evropa)
 
 
 odselitve.eng <- tabela2 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo !="NA") %>% 
@@ -124,13 +124,14 @@ zemljevid.odselitve.celine <- ggplot() + aes(x = long, y = lat, group = group, f
   geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
                  left_join(odselitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
   geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
-print(zemljevid.odselitve.celine)
+#print(zemljevid.odselitve.celine)
 
 zemljevid.odselitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
   geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
                                           SOVEREIGNT %in% c("Canada",
                                                             "United States of America")) %>%
                  left_join(odselitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
-  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))
-print(zemljevid.odselitve.evropa)
+  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70)) + 
+  ggtitle("Število odselitev")
+#print(zemljevid.odselitve.evropa)
  
