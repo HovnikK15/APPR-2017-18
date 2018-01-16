@@ -52,9 +52,9 @@ Tabela **tabela2** prikazuje državo državljanstva priseljencev v Slovenijo. Se
 kable(head(tabela2), align="ccccc")
 ```
 
-Tabela **tabela4** prikazuje v katere regije so se priseljenci preseljevali. Sestavljena je iz stolpcev: vrsta migrantov, regija, leto, državljanstvo ter število. Stolpec *džravljanstvo* prikazuje, ali je bil priseljenec oz. odseljenec domač ali tuj državljan.
+Tabela **tabela3** prikazuje v katere regije so se priseljenci preseljevali. Sestavljena je iz stolpcev: vrsta migrantov, regija, leto, državljanstvo ter število. Stolpec *džravljanstvo* prikazuje, ali je bil priseljenec oz. odseljenec domač ali tuj državljan.
 ```{r tabela4,echo=FALSE, message=FALSE}
-kable(head(tabela4), align="ccccc")
+kable(head(tabela3), align="ccccc")
 ```
 
 Tabela **html2** prikazuje dejavnost migranta, ki se je preselil v Slovenijo. Tabela se mi je zdela zanimiva, saj prikazuje kakšen tip ljudi se priseljuje v Slovenijo.
