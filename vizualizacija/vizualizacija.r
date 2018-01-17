@@ -135,7 +135,7 @@ zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fil
   coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70)) + 
   ggtitle("Število priselitev iz posameznih držav")
 
-print(zemljevid.selitve.evropa)
+#print(zemljevid.selitve.evropa)
 
 
 odselitve.eng <- html1 %>% filter(Stevilo !="NA") %>% 
@@ -155,7 +155,7 @@ zemljevid.odselitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, f
                  left_join(odselitve.eng, by = c("SOVEREIGNT" = "Drzava_prihodnjega_prebivalisca"))) +
   coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70)) + 
   ggtitle("Število odselitev v posamezne države")
-print(zemljevid.odselitve.evropa)
+#print(zemljevid.odselitve.evropa)
 
 
 #Zemljevid po regijah
@@ -174,7 +174,7 @@ zemljevid.priselitve.slo <- ggplot() +
   ggtitle("Število priselitev v posamezne regije")
 
   
-print(zemljevid.priselitve.slo)
+#print(zemljevid.priselitve.slo)
 
 regije.odselitve <- tabela3 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo != "NA")  %>%
   group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) 
@@ -183,7 +183,7 @@ zemljevid.odselitve.slo <- ggplot() +
                  right_join(zemljevid , by = c("Regija" = "NAME_1")),
                aes(x = long, y = lat, group = group, fill = Stevilo)) +
   ggtitle("Število odselitev iz posameznih regijah")
-print(zemljevid.odselitve.slo)
+#print(zemljevid.odselitve.slo)
 
 
 
