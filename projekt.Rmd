@@ -83,3 +83,67 @@ Tabela **html2** prikazuje dejavnost migranta, ki se je preselil v Slovenijo. Ta
 kable(head(html2), align="ccccc")
 ```
 
+***
+
+# Analiza in vizualizacija podatkov
+
+```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE}
+source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+```
+
+Pri analizi podatkov sem si pomagal s stolpičnimi in črtnimi grafi, ter zemljevidi, katere bom predstavil in razložil v tem razdelku.
+
+
+Najprej sem naredil graf vseh selitev ločene po tipu migranta, na naslednjega pa sem prikazal podatke ločene še po spolu.
+
+
+```{r graf1, echo=FALSE, message=FALSE, fig.align='center' }
+print(graf1)
+print(graf2)
+
+```
+
+
+Iz drugega grafa vidimo, da je večji del imigrantov moškega spola. To je rezultat tega, da je večji del priseljencev iz juga, ki se preselijo v Slovenijo zato, da tu služijo denar za svoje družine. 
+Leta 2008 se je začela gospodarska kriza v Evropi, ki je zajela tudi Slovenijo. Iz prvega graf, lahko vidimo, da je to vplivalo tudi na selitve. Do vrhunca pred krizo, ko je bila Slovenija (takrat) v najboljšem gospodarskem položaju, je število priseljencev zelo naraščalo, število izseljencev pa padalo, saj je bilo manj ekonomskih migracij (to so selitve z namenom izboljšanja ekonomskega položaja). Po začetku krize pa se je ta trend ravno obrnil. Gospodarstvo Slovenije je padalo, kar je povzročilo, da se je več ljudi izselilo, manj pa priselilo. 
+Skoraj skozi celotno obdobje je imela Slovenija pozitiven migracijski saldo (razlika med številom priseljencev in izseljencev), le leta 2010, med krizo, je bilo več izselitev ko priselitev.  
+V drugem grafu sem želel prikazati, kakšna je razlika med številom ženskih oz. moških migrantov. Opazil sem, da je večji del migrantov moškega spola. Največ le teh pa je imigrantov. To je rezultat tega, da je večji del priseljencev iz juga, ki se preselijo v Slovenijo zato, da tu služijo denar za svoje družine. Zanimivo je to, da iz grafa razberem, da kriza in drugi dejavniki niso tako zelo vplivali na ženski del migracij, kot se to pozna na moškem delu,  (recimo obdobje med krizo).
+
+```{r graf4, echo=FALSE, message=FALSE, fig.align='center' }
+print(graf5)
+```
+
+Zgornji graf prikazuje imigrante po dejavnosti. Kot sem že zgoraj omenil je največ "delavskih" imigrantov iz juga. Največ jih je zaposlenih v gradbeništvu, predelovalni dejavnosti (predelovanje surovin v potrošne in investicijske dobrine) ter promet in skladiščenje. 
+
+Iz lahko z grafov vidimo le numerične podatke, zato sem v svojo analizo vključil še zemljevide. Ker sem imel podatke posebej za celine ter evropske države, sem se odločil narediti za vsako selitveno skupino dva zemljevida. In sicer posebej za celine ter posebej za evropske države. Prav tako sem podatke pridobil še o občinah, kjer sem podatke enako prikazal v dveh zemljevidih za obe skupini migrantov. 
+
+
+```{r zemljevid.selitve.celine, echo=FALSE, message=FALSE, fig.align='center'}
+print(zemljevid.selitve.celine)
+print(zemljevid.selitve.evropa)
+```
+Na zgornjih dveh zemljevidih sem prikazal izselitve iz Slovenije. Na prvem lahko vidimo v katere celine so se najbolj preseljevali. Ker je bilo preselitev izven Evrope bistveno manj kot znotraj, sem podatke predstavil brez upoštevanja Evrope. Tako sem dobil razpon od 0- 5000 priselitev. Največ le teh je bilo iz Azije (4800). Evropo pa sem pobarval posebej z najsvetlejšo barvo, ki prikazuje 270 000 priselitev od leta 2000-2016.
+Na drugem zemljevidu pa sem prikazal podatke le za evropske države. Kot sem že zgoraj omenil je bilo največ priselitev iz juga, natančneje iz Bosne in Hercegovine (91 000). Ta številka se od drugih bistveno razlikuje (drugih največ preselitev je bilo iz Srbije in sicer 37 000) ter je zaradi tega večji del zemljevida pobarvan s podobnim odtenkom. Opazil sem tudi, da je med temi državami, pobarvana tudi Slovenija, saj sem imel podatke o državljanstvu migranta, ki se je preselil v SLO. To pomeni, da se je 36 000 Slovencev, ki so živeli po drugod, v teh letih preselilo nazaj v Slovenijo.
+Za nekaj držav nisem imel podatkov, zato so pobarvane sivo.
+
+```{r zemljevid.odselitve.celine, echo=FALSE, message=FALSE, fig.align='center'}
+print(zemljevid.odselitve.celine)
+print(zemljevid.odselitve.evropa)
+#print(zemljevid.priselitve.slo)
+#print(zemljevid.odselitve.slo)
+```
+Na teh dveh zemljevidih sem predstavil podatke za izseljene prebivalce. Najprej sem podatke prikazal po celinah, nato pa še po posameznih državah. 
+Selitve po celinah sem naredil podobno kot pri grafu za priselitve iz celin. Največ ljudi se je izselilo v evropske države (37 000) nato pa še v Severno Ameriko in Azijo (1000). Najmanj pa v Južno Ameriko in Afriko (150).
+Iz zemljevida Evrope pa lahko vidimo, da je bilo največ izselitev na jug Evrope, Nemčijo ter Italijo.
+
+Odločil sem se še posebej analizirati samo Slovenijo po regijah. Enako sem naredil dva zemljevida za imigrante in emigrante. 
+Očitno je, da se je največ ljudi preselilo v osrednjeslovenski del (86 000). To je seveda rezultat tega, da se tam nahajajo najpomembnejša središča, kjer imajo priseljenci največ možnosti za naprej. Najmanj prirastka pa sta bili deležni Zasavska in Koroška regija.
+```{r zemljevid.priselitve.slo, echo=FALSE, message=FALSE, fig.align='center'}
+print(zemljevid.priselitve.slo)
+print(zemljevid.odselitve.slo)
+```
+
+Iz zadnjega zemljevida pa lahko razberemo iz katerih regij se je preselilo največ ljudi v druge države. Zemljevid je podoben prejšnjemu. Največ izselitev iz okolice Ljubljane (58 000) najmanj pa iz Zasavske in Koroške.Sklepal bi, da je rezultat tega odvisen predvsem od narave ljudi. V osrednji Sloveniji so nasplošno prebivalci bol odprti za diverziteto kot pa na nekaterih bolj deželskih območjih po Sloveniji. 
+
+
+
