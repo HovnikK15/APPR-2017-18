@@ -10,10 +10,11 @@ graf1 <- ggplot(tabela1 %>% group_by(Leto, Vrsta_migrantov) %>% summarise(Stevil
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   ggtitle("Število selitev po letih") +
   scale_color_discrete("Vrsta migrantov")
-
 #print(graf1)
+
 #graf priseljenih in odseljenih, ločeno po spolu ter po vrsti migracije
-graf2 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = paste(Spol, Vrsta_migrantov))) +
+graf2 <- ggplot(tabela1 %>% group_by(Vrsta_migrantov, Leto, Spol) %>%summarise(Stevilo = sum(Stevilo)), 
+                aes(x = factor(Leto), y = Stevilo, fill = paste(Spol, Vrsta_migrantov))) +
   geom_bar(stat = "identity", position = "dodge") +
   xlab("Leto") + ylab("Število") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
@@ -22,7 +23,8 @@ graf2 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = paste(Spol, V
 #print(graf2)
 
 #graf priseljenih in odseljenih, ločeno po spolu
-graf3 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = Spol)) +
+graf3 <- ggplot(tabela1 %>% group_by(Leto, Spol) %>%summarise(Stevilo = sum(Stevilo)),
+                aes(x = factor(Leto), y = Stevilo, fill = Spol)) +
   geom_bar(stat = "identity", position = "dodge") +
   xlab("Leto") + ylab("Število") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
@@ -30,27 +32,34 @@ graf3 <- ggplot(tabela1, aes(x = factor(Leto), y = Stevilo, fill = Spol)) +
 #print(graf3)
 
 #graf, ki prikazuje iz katerih držav so se preselili v Slovenijo
-graf4 <- ggplot(tabela2 %>% 
-                filter(Vrsta_migrantov =="Priseljeni iz tujine", 
-                       Drzava_drzavljanstva != "EVROPA", 
-                       Drzava_drzavljanstva != "SEVERNA IN SREDNJA AMERIKA"),
-                aes(x = Drzava_drzavljanstva, y = Stevilo)) +
+
+graf4 <- ggplot(tabela2 %>%
+                  filter(Vrsta_migrantov == "Priseljeni iz tujine",
+                         Drzava_drzavljanstva != "EVROPA",
+                         Drzava_drzavljanstva != "SEVERNA IN SREDNJA AMERIKA") %>%
+                  group_by(Drzava_drzavljanstva) %>%
+                  summarise(Stevilo = sum(Stevilo, na.rm = TRUE)),
+                aes(x = reorder(Drzava_drzavljanstva, -Stevilo), y = Stevilo)) +
   geom_bar(stat = "identity", position = "dodge", fill = "purple") +
   xlab("Država državljanstva") + ylab("Število") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   ggtitle("Število preselitev iz posameznih držav v Slovenijo")
-
 #print(graf4)
+
+
 #graf 5 prikazuje število tujih priseljencev po posameznih dejavnostih
 graf5 <- ggplot(html2 %>% 
-                  filter(Drzavljanstvo =="Tuji državljani"),
-                         aes(x = Dejavnost, y = Stevilo, fill = Spol)) +
+                  filter(Drzavljanstvo =="Tuji državljani") %>%
+                  group_by(Dejavnost, Spol) %>%
+                  summarise(Stevilo = sum(Stevilo)),
+                aes(x = reorder(Dejavnost, -Stevilo), y = Stevilo, fill = Spol)) +
   geom_bar(stat = "identity", position = "dodge") +
   xlab("Dejavnost") + ylab("Število") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   ggtitle("Število priseljenih po posameznih dejavnostih")
-
 #print(graf5)
+
+
 
 # Uvozimo zemljevid.
 drzave.eng <- c("EVROPA" = "Europe",
@@ -88,8 +97,8 @@ drzave.eng <- c("EVROPA" = "Europe",
                 "Kanada"= "Canada",
                 "Združene države"= "United States of America",
                 "Druge države Severne in Srednje Amerike"= "North America",
-                "AVSTRALIJA IN OCEANIJA"= "Oceania",
-                "Neznana država"="???????????????????????"
+                "AVSTRALIJA IN OCEANIJA"= "Oceania"
+                
 ) 
 
 
@@ -108,7 +117,8 @@ zemljevid.selitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fil
 print(zemljevid.selitve.celine)
 
 zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
-  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
+  geom_polygon(data = evropa %>% filter(Drzava_drzavljanstva !="Bosnia and Herzegovina", 
+                                        CONTINENT == "Europe" |
                                           SOVEREIGNT %in% c("Canada",
                                                             "United States of America")) %>%
                  left_join(selitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +

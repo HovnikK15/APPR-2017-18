@@ -8,8 +8,8 @@ uvozihtml <- function() {
     apply(1, . %>% { c(.[is.na(.)], .[!is.na(.)]) }) %>% t() %>% data.frame()
   colnames(tabhtml) <-c("Leto", "Drzava_prihodnjega_prebivalisca", "Drzavljanstvo","Spol", "Status", "Stevilo")
   tabhtml <- tabhtml[-c(921), ]
-  #tabhtml$Drzava_prihodnjega_prebivalisca <-gsub(".", "", tabhtml$Drzava_prihodnjega_prebivalisca)
-  #tabhtml$Drzava_prihodnjega_prebivalisca <- gsub("....", "", Drzava_prihodnjega_prebivalisca, fixed = TRUE) #TU NE GRE
+  tabhtml$Drzava_prihodnjega_prebivalisca <- gsub("^[.]*", "", tabhtml$Drzava_prihodnjega_prebivalisca)
+  tabhtml$Drzava_prihodnjega_prebivalisca <- gsub("EVROPA - SKUPAJ", "EVROPA", tabhtml$Drzava_prihodnjega_prebivalisca)
   return(tabhtml)
 }
 html1 <- uvozihtml()
