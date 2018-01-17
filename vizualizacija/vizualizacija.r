@@ -28,7 +28,7 @@ graf3 <- ggplot(tabela1 %>% group_by(Leto, Spol) %>%summarise(Stevilo = sum(Stev
   geom_bar(stat = "identity", position = "dodge") +
   xlab("Leto") + ylab("Število") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
-  ggtitle("Število migracij po letih")
+  ggtitle("Število migracij po letih ločenih po spolu")
 #print(graf3)
 
 #graf, ki prikazuje iz katerih držav so se preselili v Slovenijo
@@ -94,53 +94,90 @@ drzave.eng <- c("EVROPA" = "Europe",
                 "AZIJA"= "Asia",
                 "JUŽNA AMERIKA"= "South America", 
                 "SEVERNA IN SREDNJA AMERIKA"=  "North America", 
-                "Kanada"= "Canada",
-                "Združene države"= "United States of America",
+                "Kanada"= "North America",
+                "Združene države"= "North America",
                 "Druge države Severne in Srednje Amerike"= "North America",
-                "AVSTRALIJA IN OCEANIJA"= "Oceania"
-                
-) 
+                "AVSTRALIJA IN OCEANIJA"= "Oceania",
+                "Slovaška" = "Slovakia",
+                "Španija" = "Spain",
+                "Belorusija" = "Belarus",
+                "Norveška" = "Norway",
+                "Finska" = "Finland") 
 
 
 evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
                           "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
   pretvori.zemljevid() %>% filter(lat > -60)
 
-selitve.eng <- tabela2 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA") %>% 
-  group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo)) %>%
-  mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva])
+selitve.eng <- tabela2 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
+  mutate(Drzava_drzavljanstva = drzave.eng[Drzava_drzavljanstva]) %>% 
+  group_by(Drzava_drzavljanstva) %>% summarise(Stevilo = sum(Stevilo))
 
 zemljevid.selitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
   geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
                  left_join(selitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
-  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
-print(zemljevid.selitve.celine)
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")+ 
+  ggtitle("Število priselitev iz posameznih celin")
+#print(zemljevid.selitve.celine)
+
 
 zemljevid.selitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
-  geom_polygon(data = evropa %>% filter(Drzava_drzavljanstva !="Bosnia and Herzegovina", 
-                                        CONTINENT == "Europe" |
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
                                           SOVEREIGNT %in% c("Canada",
                                                             "United States of America")) %>%
                  left_join(selitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
-  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))
-print(zemljevid.selitve.evropa)
+  coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70))+ 
+  ggtitle("Število priselitev iz posameznih držav")
+#print(zemljevid.selitve.evropa)
 
 
 odselitve.eng <- html1 %>% filter(Stevilo !="NA") %>% 
-  group_by(Drzava_prihodnjega_prebivalisca) %>% summarise(Stevilo = sum(Stevilo)) #%>%mutate(Drzava_prihodnjega_prebivalisca = drzave.eng[Drzava_prihodnjega_prebivalisca])
+  group_by(Drzava_prihodnjega_prebivalisca) %>% summarise(Stevilo = sum(Stevilo)) %>%
+  mutate(Drzava_prihodnjega_prebivalisca = drzave.eng[Drzava_prihodnjega_prebivalisca])
 
 zemljevid.odselitve.celine <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
   geom_polygon(data = evropa %>% filter(CONTINENT != "Europe") %>%
-                 left_join(odselitve.eng, by = c("CONTINENT" = "Drzava_drzavljanstva"))) +
-  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")
-print(zemljevid.odselitve.celine)
+                 left_join(odselitve.eng, by = c("CONTINENT" = "Drzava_prihodnjega_prebivalisca"))) +
+  geom_polygon(data = evropa %>% filter(CONTINENT == "Europe"), fill = "#ADDCFF")+ 
+  ggtitle("Število odselitev po celinah")
+#print(zemljevid.odselitve.celine)
+
 
 zemljevid.odselitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, fill = Stevilo) +
   geom_polygon(data = evropa %>% filter(CONTINENT == "Europe" |
                                           SOVEREIGNT %in% c("Canada",
                                                             "United States of America")) %>%
-                 left_join(odselitve.eng, by = c("SOVEREIGNT" = "Drzava_drzavljanstva"))) +
+                 left_join(odselitve.eng, by = c("SOVEREIGNT" = "Drzava_prihodnjega_prebivalisca"))) +
   coord_cartesian(xlim = c(-25, 35), ylim = c(35, 70)) + 
-  ggtitle("Število odselitev")
-print(zemljevid.odselitve.evropa)
+  ggtitle("Število odselitev v posamezne države")
+#print(zemljevid.odselitve.evropa)
+
+
+#Zemljevid po regijah
+zemljevid <- uvozi.zemljevid("http://biogeo.ucdavis.edu/data/gadm2.8/shp/SVN_adm_shp.zip",
+                             "SVN_adm1", encoding = "UTF-8") %>% pretvori.zemljevid()
+
+regije.priselitve <- tabela3 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
+   group_by(Regija) %>% summarise(Stevilo = sum(Stevilo))
+
+# zemljevid slovenskih dijakov po %
+zemljevid.priselitve.slo <- ggplot() +
+  geom_polygon(data = regije.priselitve %>%
+                 right_join(zemljevid , by = c("Regija" = "NAME_1")),
+               aes(x = long, y = lat, group = group, fill = Stevilo)) +
+  ggtitle("Število priselitev v posamezne regije")
+#print(zemljevid.priselitve.slo)
+
+regije.odselitve <- tabela3 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo != "NA")  %>%
+  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo))
+zemljevid.odselitve.slo <- ggplot() +
+  geom_polygon(data = regije.odselitve %>%
+                 right_join(zemljevid , by = c("Regija" = "NAME_1")),
+               aes(x = long, y = lat, group = group, fill = Stevilo)) +
+  ggtitle("Število odselitev iz posameznih regijah")
+
+#print(zemljevid.odselitve.slo)
+
+
+
  

@@ -7,7 +7,7 @@ uvozihtml <- function() {
   tabhtml <- html %>% html_nodes(xpath="//table") %>% .[[1]] %>% html_table(fill = TRUE) %>%
     apply(1, . %>% { c(.[is.na(.)], .[!is.na(.)]) }) %>% t() %>% data.frame()
   colnames(tabhtml) <-c("Leto", "Drzava_prihodnjega_prebivalisca", "Drzavljanstvo","Spol", "Status", "Stevilo")
-  tabhtml <- tabhtml[-c(921), ]
+  tabhtml <- tabhtml[-c(1105), ]
   tabhtml$Drzava_prihodnjega_prebivalisca <- gsub("^[.]*", "", tabhtml$Drzava_prihodnjega_prebivalisca)
   tabhtml$Drzava_prihodnjega_prebivalisca <- gsub("EVROPA - SKUPAJ", "EVROPA", tabhtml$Drzava_prihodnjega_prebivalisca)
   return(tabhtml)

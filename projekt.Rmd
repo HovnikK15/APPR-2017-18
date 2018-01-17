@@ -23,7 +23,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Izbral sem si temo migracij v Sloveniji od leta 2000 dalje.  V projektu bom analiziral priselitve in odselitve prebivalstva, tako tujega kot tudi državljanov RS po letih, starostnih skupinah, spolu. Posebej bom primerjal še v katerih regijah je prišlo do porasta preseljevanja ter tudi koliko slovenskih državljanov se je izselilo iz Slovenije ali preselilo nazaj v Slovenijo
+Izbral sem si temo migracij v Sloveniji od leta 2000 dalje.  V projektu bom analiziral priselitve in odselitve prebivalstva po letih, starostnih skupinah, spolu. Posebej bom primerjal še v katerih regijah je prišlo do porasta preseljevanja.
 
 
 ***
@@ -40,25 +40,44 @@ Vse podatke o preselitvah sem uvozil v obliki .csv ter v obliki HTML s [statisti
 Podatke imam v več razpredelnicah v obliki *tidy data*.
 
 ### Opis tabel:
-Tabela **tabela1** je sestavljena iz stolpcev *vrsta migrantov* (character), *starostna skupina* (character), *leto* (numeric), *spol* (factor) in *število* (numeric). 
+Tabela **tabela1** je sestavljena iz stolpcev:
+
+* *vrsta migrantov* (imenska spremenljivka); (Priseljeni iz tujine/odseljeni v tujino)
+* *starostna skupina* (imenska spremenljivka),
+* *leto* (številska spremenljivka); (2000-2016) 
+* *spol* (številska spremenljivka),
+* *število* (številska spremenljivka)
+
 Podatki so zbrani za leta od 2000 do 2016. Vrsto migrantov sem ločil po preseljenih iz tujine in odseljenih v tujino. Starostne skupine na koncu nisem upošteval. 
 ```{r tabela1,echo=FALSE, message=FALSE}
 kable(head(tabela1), align="ccccc")
 ```
 
-Tabela **tabela2** prikazuje državo državljanstva priseljencev v Slovenijo. Sestavljena je iz podobnih stoplcev kot zgornja tabela le, da je namesto starostne skupine stolpec *Država državljanstva*, ki pove, iz katere države se je priselil migrant v Slovenijo.
+Tabela **tabela2** prikazuje iz katerih držav so se priseljevali priseljenci v Slovenijo. Sestavljena je iz podobnih stoplcev kot zgornja tabela le, da je namesto starostne skupine stolpec *Država državljanstva*, ki pove, iz katere države se je priselil migrant v Slovenijo.
 
 ```{r tabela2,echo=FALSE, message=FALSE}
 kable(head(tabela2), align="ccccc")
 ```
 
-Tabela **tabela3** prikazuje v katere regije so se priseljenci preseljevali. Sestavljena je iz stolpcev: vrsta migrantov, regija, leto, državljanstvo ter število. Stolpec *džravljanstvo* prikazuje, ali je bil priseljenec oz. odseljenec domač ali tuj državljan.
+Tabela **tabela3** prikazuje v katere regije so se priseljenci preseljevali oz. iz katerih so se odseljevali. Sestavljena je iz stolpcev:
+
+* *vrsta migrantov*,
+* *regija*,
+* *leto*,
+* *državljanstvo*,
+* *število* 
+
+Stolpec *državljanstvo* ločuje podatke po domačih in tujih državljanih, kjer domač pomeni, da se je nazaj v Slovenijo preselil Slovenec, ki je živel nekje drugje.
 ```{r tabela4,echo=FALSE, message=FALSE}
 kable(head(tabela3), align="ccccc")
 ```
 
-Tabela **html2** prikazuje dejavnost migranta, ki se je preselil v Slovenijo. Tabela se mi je zdela zanimiva, saj prikazuje kakšen tip ljudi se priseljuje v Slovenijo.
-migrante ločene po dejavnostidržavo državljanstva priseljencev v Slovenijo. Sestavljena je iz podobnih stoplcev kot zgornja tabela le, da je namesto starostne skupine stolpec *Država državljanstva*, ki pove, iz katere države se je priselil migrant v Slovenijo.
+Tabela **html1** prikazujev katere države so se odseljevali iz Slovenije. Podatki so bili le od leta 2011. Podatki pa so bili ločeni po *letu*, *državljanstvu*, *spolu*, *statusu* (ki pove ali je bil migrant zaposlen ali brezposeln).
+```{r html1,echo=FALSE, message=FALSE}
+kable(head(html1), align="cccccc")
+```
+
+Tabela **html2** prikazuje dejavnost migranta, ki se je preselil v Slovenijo. Tabela se mi je zdela zanimiva, saj prikazuje kakšen tip ljudi se priseljuje v Slovenijo. Sestavljena je podobna kot zgornja.
 
 ```{r html2,echo=FALSE, message=FALSE}
 kable(head(html2), align="ccccc")
