@@ -162,22 +162,36 @@ zemljevid.odselitve.evropa <- ggplot() + aes(x = long, y = lat, group = group, f
 zemljevid <- uvozi.zemljevid("http://biogeo.ucdavis.edu/data/gadm2.8/shp/SVN_adm_shp.zip",
                              "SVN_adm1", encoding = "UTF-8") %>% pretvori.zemljevid()
 
-regije.priselitve <- tabela3 %>% filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
-   group_by(Regija) %>% summarise(Stevilo = sum(Stevilo))
+ime_regije <- c("Primorsko-kraška" = "Notranjsko-kraška",
+                "Posavska" = "Spodnjeposavska",
+                "Gorenjska" = "Gorenjska",
+                "Goriška" = "Goriška",
+                "Jugovzhodna Slovenija" = "Jugovzhodna Slovenija",
+                "Koroška" = "Koroška",
+                "Osrednjeslovenska" = "Osrednjeslovenska",
+                "Podravska"="Podravska",
+                "Pomurska"="Pomurska",
+                "Savinjska"="Savinjska",
+                "Zasavska"="Zasavska",
+                "Obalno-kraška" = "Obalno-kraška")
 
-# zemljevid slovenskih dijakov po %
+regije.priselitve <- tabela3 %>% 
+  filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
+  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) %>% mutate(Regija = ime_regije[Regija])
+#regije.priselitve$Regija <- gsub("Primorsko-kraška", "Notranjsko-kraĹĄka", regije.priselitve$Regija)
+#regije.priselitve$Regija <- gsub("Posavska", "Spodnjeposavska", regije.priselitve$Regija)
+
 
 zemljevid.priselitve.slo <- ggplot() +
-  geom_polygon(data = regije.priselitve  %>%
+  geom_polygon(data = regije.priselitve  %>% 
                  right_join(zemljevid , by = c("Regija" = "NAME_1")),
                aes(x = long, y = lat, group = group, fill = Stevilo)) +
   ggtitle("Število priselitev v posamezne regije")
 
-  
 #print(zemljevid.priselitve.slo)
 
 regije.odselitve <- tabela3 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo != "NA")  %>%
-  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) 
+  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) %>% mutate(Regija = ime_regije[Regija])
 zemljevid.odselitve.slo <- ggplot() +
   geom_polygon(data = regije.odselitve %>%
                  right_join(zemljevid , by = c("Regija" = "NAME_1")),
