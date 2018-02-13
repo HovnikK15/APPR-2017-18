@@ -95,6 +95,7 @@ tabela2 <- uvozi2()
 #pretvorba stolpca Stevilo iz "character" v "numeric"- stevilsko vrednost:
 tabela2$Stevilo <- as.numeric(as.character(tabela2$Stevilo))
 
+#spodnje tabele nisem vključil v svoje poročilo, zato sem jo izbrisal. A sem jo za vsak slučaj pustil, če jo bom kdaj potreboval
 #uvozi3 <- function() {
 #  tab3 <- read_csv2(file="podatki/tabela3.csv",
 #                    locale = locale(encoding = "Windows-1250"), skip = 3,  n_max = 45)

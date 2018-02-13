@@ -22,6 +22,15 @@ graf2 <- ggplot(tabela1 %>% group_by(Vrsta_migrantov, Leto, Spol) %>%summarise(S
   guides(fill = guide_legend("Spol in vrsta"))
 #print(graf2)
 
+graf6 <- ggplot(tabela1 %>% group_by(Vrsta_migrantov, Starostna_skupina) %>%summarise(Stevilo = sum(Stevilo)), 
+                aes(x = factor(Starostna_skupina), y = Stevilo, fill = Vrsta_migrantov)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  xlab("Leto") + ylab("Število") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+  ggtitle("Število migracij ločenih po starostni skupini in vrsti migracije") 
+
+#print(graf6)
+
 #graf priseljenih in odseljenih, ločeno po spolu
 graf3 <- ggplot(tabela1 %>% group_by(Leto, Spol) %>%summarise(Stevilo = sum(Stevilo)),
                 aes(x = factor(Leto), y = Stevilo, fill = Spol)) +
@@ -204,7 +213,7 @@ zemljevid.odselitve.slo <- ggplot() +
   geom_polygon(data = regije.odselitve %>%
                  right_join(zemljevid , by = c("Regija" = "NAME_1")),
                aes(x = long, y = lat, group = group, fill = Stevilo)) +
-  ggtitle("Število odselitev iz posameznih regijah")
+  ggtitle("Število odselitev iz posameznih regij")
 #print(zemljevid.odselitve.slo)
 
 #alternativna koda, ki ne deluje
