@@ -32,7 +32,7 @@ Izbral sem si temo migracij v Sloveniji od leta 2000 dalje.  V projektu bom anal
 
 ```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+#source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
 #source("analiza/analiza.r", encoding = "UTF-8")
 ```
 

@@ -175,6 +175,14 @@ ime_regije <- c("Primorsko-kraška" = "Notranjsko-kraška",
                 "Zasavska"="Zasavska",
                 "Obalno-kraška" = "Obalno-kraška")
 
+#ime_regije <- c("Primorsko-kraška" = "Notranjsko-kraška",
+#                "Posavska" = "Spodnjeposavska")
+#tabela3.regije <- tabela3 %>% mutate(Regija = ifelse(Regija %in% names(ime_regije),
+#                                                    ime_regije[Regija], Regija))
+#regije.priselitve <- tabela3.regije %>% 
+#  filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
+#  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) 
+
 regije.priselitve <- tabela3 %>% 
   filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
   group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) %>% mutate(Regija = ime_regije[Regija])
@@ -200,16 +208,16 @@ zemljevid.odselitve.slo <- ggplot() +
 #print(zemljevid.odselitve.slo)
 
 #alternativna koda, ki ne deluje
-regije.odselitve1 <- tabela3 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo != "NA")  %>%
-  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo))
-regije.odselitve1$Regija <- gsub("Primorsko-kraška", "Notranjsko-kraška", regije.odselitve1$Regija)
-regije.odselitve1$Regija <- gsub("Posavska", "Spodnjeposavska", regije.odselitve1$Regija)
-zemljevid.odselitve.slo1 <- ggplot() +
-  geom_polygon(data = regije.odselitve %>%
-                 right_join(zemljevid , by = c("Regija" = "NAME_1")),
-               aes(x = long, y = lat, group = group, fill = Stevilo)) +
-  ggtitle("Število odselitev iz posameznih regijah")
-
-print(zemljevid.odselitve.slo1)
+#regije.odselitve1 <- tabela3 %>% filter(Vrsta_migrantov == "Odseljeni v tujino", Stevilo != "NA")  %>%
+#  group_by(Regija) %>% summarise(Stevilo = sum(Stevilo))
+#regije.odselitve1$Regija <- gsub("Primorsko-kraška", "Notranjsko-kraška", regije.odselitve1$Regija)
+#regije.odselitve1$Regija <- gsub("Posavska", "Spodnjeposavska", regije.odselitve1$Regija)
+#zemljevid.odselitve.slo1 <- ggplot() +
+#  geom_polygon(data = regije.odselitve %>%
+#                 right_join(zemljevid , by = c("Regija" = "NAME_1")),
+#               aes(x = long, y = lat, group = group, fill = Stevilo)) +
+#  ggtitle("Število odselitev iz posameznih regijah")
+#
+#print(zemljevid.odselitve.slo1)
 
  

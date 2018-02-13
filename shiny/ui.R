@@ -1,5 +1,5 @@
 library(shiny)
-
+library(DT)
 shinyUI(fluidPage(
   
   titlePanel("Slovenske občine"),
