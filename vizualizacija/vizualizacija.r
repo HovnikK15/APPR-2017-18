@@ -25,7 +25,7 @@ graf2 <- ggplot(tabela1 %>% group_by(Vrsta_migrantov, Leto, Spol) %>%summarise(S
 graf6 <- ggplot(tabela1 %>% group_by(Vrsta_migrantov, Starostna_skupina) %>%summarise(Stevilo = sum(Stevilo)), 
                 aes(x = factor(Starostna_skupina), y = Stevilo, fill = Vrsta_migrantov)) +
   geom_bar(stat = "identity", position = "dodge") +
-  xlab("Leto") + ylab("Število") +
+  xlab("Starostna Skupina") + ylab("Število") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
   ggtitle("Število migracij ločenih po starostni skupini in vrsti migracije") 
 

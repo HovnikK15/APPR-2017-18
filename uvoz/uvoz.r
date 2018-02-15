@@ -57,7 +57,7 @@ uvozi1 <- function() {
     filter(!grepl("SKUPAJ", Starostna_skupina)) %>%
     melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
     mutate(stolpec = parse_character(stolpec)) %>%
-    transmute(Vrsta_migrantov, Starostna_skupina,
+    transmute(Vrsta_migrantov, Starostna_skupina = factor(Starostna_skupina, levels = unique(Starostna_skupina), ordered = TRUE),
               Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo)
