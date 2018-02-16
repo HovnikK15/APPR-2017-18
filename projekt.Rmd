@@ -8,7 +8,7 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-#runtime: shiny
+runtime: shiny
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -154,7 +154,16 @@ print(zemljevid.odselitve.slo)
 
 Iz zadnjega zemljevida pa lahko razberemo iz katerih regij se je odselilo največ ljudi v druge države. Zemljevid je podoben prejšnjemu, saj je največ izselitev iz okolice Ljubljane in sicer 58 000, najmanj pa iz Zasavske in Koroške. Sklepal bi, da je rezultat tega odvisen tudi od večjega deleža mladih v osrednji Sloveniji, kot v drugih delih Slovenije. Mladi imajo večje težnje po spremembah in odseljevanju, ter se novemu okolju lažje prilagodijo, starejši pa to težje sprejemajo, zato se tudi manj selijo.
 
-### Zaključek
+###Aplikacija
+Za lažji pregled selitev po letih sem dodal še aplikacijo, ki prikazuje število selitev ločeno po spolu za vsako državo posebej.
+
+```{r shiny, echo = FALSE,message=FALSE, warning=FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=600))
+```
+
+
+
+# Zaključek
 
 V projektu sem analiziral selitve v Sloveniji in izven nje. Ugotovil sem, da ima Slovenija večinoma pozitiven migracijski saldo, kar pomeni, da je število priseljencev večje od števila odseljencev. Ta podatek me je še najbol presenetil, ostali so bili pričakovani. Zanimivo mi je bilo videti iz katerih držav oz. v katere so se najbolj preseljevali.
 
