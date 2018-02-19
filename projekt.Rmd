@@ -158,7 +158,7 @@ Iz zadnjega zemljevida pa lahko razberemo iz katerih regij se je odselilo najve�
 Za lažji pregled selitev po letih sem dodal še aplikacijo, ki prikazuje število selitev ločeno po spolu za vsako državo posebej.
 
 ```{r shiny, echo = FALSE,message=FALSE, warning=FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=600))
+shinyAppDir("shiny", options=list(width="100%", height=500))
 ```
 
 

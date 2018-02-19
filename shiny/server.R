@@ -9,8 +9,10 @@ shinyServer(function(input, output) {
       geom_col(color = "purple", fill = "white")
   }) 
   output$html1 <- renderPlot({
-    ggplot(data = html1 %>% filter(Drzava_prihodnjega_prebivalisca ==input$drzava,
-                                   Spol == input$spol),
+    ggplot(data = html1 %>% group_by(Drzava_prihodnjega_prebivalisca, Leto, Spol) %>%
+             summarise(Stevilo = sum(Stevilo))  %>% 
+             filter(Drzava_prihodnjega_prebivalisca ==input$drzava1,
+                                   Spol == input$spol1),
            aes(x = Leto, y = Stevilo)) +
       geom_col(color = "blue", fill = "white") 
   })
