@@ -20,11 +20,11 @@ shinyUI(fluidPage(
     ),
     tabPanel("Število odseljenih",
              sidebarPanel(
-               selectInput("drzava",
+               selectInput("drzava1",
                            label = "Izberite državo",
                            choices = sort(unique(html1$Drzava_prihodnjega_prebivalisca))
                            ),
-               selectInput("spol",
+               selectInput("spol1",
                            label = "Izberite spol",
                            choices = sort(unique(html1$Spol))
                )
