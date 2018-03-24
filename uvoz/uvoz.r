@@ -57,10 +57,13 @@ uvozi1 <- function() {
     filter(!grepl("SKUPAJ", Starostna_skupina)) %>%
     melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
     mutate(stolpec = parse_character(stolpec)) %>%
-    transmute(Vrsta_migrantov, Starostna_skupina = factor(Starostna_skupina, levels = unique(Starostna_skupina), ordered = TRUE),
-              Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
+    transmute(Vrsta_migrantov, 
+              Starostna_skupina = factor(Starostna_skupina,
+                                         levels = unique(Starostna_skupina), ordered = TRUE),
+              Leto = stolpec %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo)
+ # tab1$Starostna_skupina <- gsub("let", "", tab1$Starostna_skupina)
 
   return(tab1)
 }
@@ -88,6 +91,7 @@ uvozi2 <- function() {
               Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo) %>% filter(Vrsta_migrantov != "Odseljeni v tujino")
+  tab2$Stevilo <- gsub("[.]+", NA, tab2$Stevilo)
   #tab2 <- tab2[,-c(1)] če bi želel zbrisati prvi stolpec, a sem ga zaradi preglednosti pustil
   return(tab2)
 }
@@ -133,7 +137,7 @@ uvozi3 <- function() {
     melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
     mutate(stolpec = parse_character(stolpec)) %>%
     transmute(Vrsta_migrantov, Regija,
-              Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
+              Leto = stolpec %>% unlist() %>% parse_number(),
               Drzavljanstvo = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo)
   return(tab2)
