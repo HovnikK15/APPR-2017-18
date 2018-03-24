@@ -23,7 +23,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Izbral sem si SGEtemo migracij v Sloveniji od leta 2000 dalje.  V projektu bom analiziral priselitve in odselitve prebivalstva po letih, starostnih skupinah, spolu. Posebej bom primerjal še v katerih regijah je prišlo do porasta preseljevanja.
+Izbral sem si temo migracij v Sloveniji od leta 2000 dalje.  V projektu bom analiziral priselitve in odselitve prebivalstva po letih, starostnih skupinah, spolu. Posebej bom primerjal še v katerih regijah je prišlo do porasta preseljevanja.
 
 
 ***
