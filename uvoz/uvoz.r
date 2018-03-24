@@ -88,7 +88,7 @@ uvozi2 <- function() {
     melt(id.vars = 1:2, variable.name = "stolpec", value.name = "Stevilo") %>%
     mutate(stolpec = parse_character(stolpec)) %>%
     transmute(Vrsta_migrantov, Drzava_drzavljanstva,
-              Leto = stolpec %>% strapplyc("^([0-9]+)") %>% unlist() %>% parse_number(),
+              Leto = stolpec %>% unlist() %>% parse_number(),
               Spol = stolpec %>% strapplyc("([^0-9]+)$") %>% unlist() %>% factor(),
               Stevilo) %>% filter(Vrsta_migrantov != "Odseljeni v tujino")
   tab2$Stevilo <- gsub("[.]+", NA, tab2$Stevilo)
