@@ -195,7 +195,7 @@ ime_regije <- c("Primorsko-kraška" = "Notranjsko-kraška",
 regije.priselitve <- tabela3 %>% 
   filter(Vrsta_migrantov == "Priseljeni iz tujine", Stevilo != "NA")  %>%
   group_by(Regija) %>% summarise(Stevilo = sum(Stevilo)) %>% mutate(Regija = ime_regije[Regija])
-#regije.priselitve$Regija <- gsub("Primorsko-kraška", "Notranjsko-kraĹĄka", regije.priselitve$Regija)
+#regije.priselitve$Regija <- gsub("Primorsko-kraška", "Notranjsko-kraška", regije.priselitve$Regija)
 #regije.priselitve$Regija <- gsub("Posavska", "Spodnjeposavska", regije.priselitve$Regija)
 
 
