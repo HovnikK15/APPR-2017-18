@@ -10,7 +10,8 @@ library(rmarkdown)
 library(tidyr)
 library(digest)
 library(httr)
-library(shiny)
+library(sp)
+library(maptools)
 # Uvozimo funkcije za pobiranje in uvoz zemljevida.
 source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
 
